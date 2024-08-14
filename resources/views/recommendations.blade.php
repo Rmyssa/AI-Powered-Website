@@ -108,30 +108,15 @@
     </form>
 </section>
 
-<div class="movie-item">
-    <img src="{{ asset(strtolower(str_replace(' ', '-', $movie)) . '.jpg') }}" alt="{{ $movie }}"
-         onerror="this.onerror=null;this.src='{{ asset('default.jpg') }}';">
-    <h3>{{ $movie }}</h3>
-    <button class="fav-btn" onclick="addToFavorites('{{ $movie }}')">Favorilere Ekle</button>
-</div>
-
-<script>
-    function addToFavorites(movie) {
-        // Favori işlemi burada gerçekleştirilir.
-        alert(movie + ' favorilere eklendi!');
-    }
-</script>
-
-
-
 <!-- Recommendations Section -->
 <section class="recommendations" id="recommendations">
-    @if(isset($recommendedMovies))
-        @foreach($recommendedMovies as $movie)
+    @if(isset($movies))
+        @foreach($movies as $movie)
             <div class="movie-item">
-                <img src="{{ asset(strtolower(str_replace(' ', '-', $movie)) . '.jpg') }}" alt="{{ $movie }}"
-                     onerror="this.onerror=null;this.src='{{ asset('default.jpg') }}';">
-                <h3>{{ $movie }}</h3>
+                <a href="https://www.imdb.com/title/{{ $movie['imdb_id'] }}" target="_blank">
+                    <img src="{{ $movie['poster'] }}" alt="{{ $movie['title'] }} Poster">
+                </a>
+                <h3>{{ $movie['title'] }}</h3>
             </div>
         @endforeach
     @else
