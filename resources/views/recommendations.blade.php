@@ -22,6 +22,7 @@
 
         header {
             margin-bottom: 50px;
+            position: relative;
         }
 
         header h1 {
@@ -33,6 +34,53 @@
         header p {
             font-size: 1.2em;
             color: #aaa;
+        }
+
+        .profile-pic {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #fff;
+            cursor: pointer;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            width: 200px;
+            background-color: #333;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .profile-menu a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .profile-menu a:hover {
+            background-color: #575757;
+        }
+        
+        /* Make profile menu visible */
+        .show-profile-menu {
+            display: block;
         }
 
         .search-section {
@@ -97,6 +145,19 @@
 <header>
     <h1>Film Öneri Sistemi</h1>
     <p>Sevdiğiniz filmlere benzer filmleri bulun</p>
+
+    <!-- Profil Fotoğrafı -->
+    <div class="profile-pic" onclick="toggleProfileMenu()">
+        <img src="profile.jpg" alt="Profil Fotoğrafı">
+    </div>
+
+    <!-- Profil Menü -->
+    <div class="profile-menu" id="profileMenu">
+        <a href="{{ route('profile.edit') }}">Profil Düzenle</a>
+        <a href="/watched">İzlediklerim</a>
+        <a href="/to-watch">İzlemek İstediklerim</a>
+        <a href="/logout">Çıkış Yap</a>
+    </div>
 </header>
 
 <!-- Search Section -->
@@ -123,5 +184,26 @@
         <p>Henüz bir film önerisi almadınız.</p>
     @endif
 </section>
+
+<script>
+function toggleProfileMenu() {
+    var menu = document.getElementById('profileMenu');
+    var isMenuVisible = menu.classList.contains('show-profile-menu');
+    if (isMenuVisible) {
+        menu.classList.remove('show-profile-menu');
+    } else {
+        menu.classList.add('show-profile-menu');
+    }
+}
+
+// Hide menu when clicking outside
+document.addEventListener('click', function(event) {
+    var menu = document.getElementById('profileMenu');
+    var profilePic = document.querySelector('.profile-pic');
+    if (!profilePic.contains(event.target) && !menu.contains(event.target)) {
+        menu.classList.remove('show-profile-menu');
+    }
+});
+</script>
 </body>
 </html>

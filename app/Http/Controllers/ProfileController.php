@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProfileController extends Controller
 {
@@ -36,6 +38,30 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+
+    public function updatePhoto(Request $request): RedirectResponse
+{
+    $request->validate([
+        'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $user = $request->user();
+
+    // Eski fotoğrafı sil
+    if ($user->profile_photo) {
+        Storage::delete($user->profile_photo);
+    }
+
+    // Yeni fotoğrafı kaydet
+    $path = $request->file('profile_photo')->store('profile_photos', 'public');
+
+    // Kullanıcının profil fotoğrafı yolunu güncelle
+    $user->profile_photo = $path;
+    $user->save();
+
+    return Redirect::route('profile.edit')->with('status', 'profile-photo-updated');
+}
+
 
     /**
      * Delete the user's account.

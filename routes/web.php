@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -35,4 +36,7 @@ Route::get('/get-recommendations', [MovieController::class, 'showRecommendations
 
 // POST isteği ile önerileri alma
 Route::post('/get-recommendations', [MovieController::class, 'getRecommendations'])->name('recommendations.get');
+
+
+Route::post('/profile-photo', [ProfileController::class, 'updatePhoto'])->name('profile.updatePhoto');
 
