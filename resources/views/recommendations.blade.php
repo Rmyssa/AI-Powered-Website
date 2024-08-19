@@ -146,9 +146,11 @@
     <h1>Film Öneri Sistemi</h1>
     <p>Sevdiğiniz filmlere benzer filmleri bulun</p>
 
+    
+
     <!-- Profil Fotoğrafı -->
     <div class="profile-pic" onclick="toggleProfileMenu()">
-        <img src="profile.jpg" alt="Profil Fotoğrafı">
+        <img src="{{ Auth::user()->profile_photo ? Storage::url(Auth::user()->profile_photo) : asset('default-avatar.png') }}" alt="Profil Fotoğrafı">
     </div>
 
     <!-- Profil Menü -->

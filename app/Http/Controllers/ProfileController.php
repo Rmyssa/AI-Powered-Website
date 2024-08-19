@@ -16,6 +16,7 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
+
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -39,28 +40,29 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    public function updatePhoto(Request $request): RedirectResponse
-{
-    $request->validate([
-        'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+   // Profil fotoğrafını güncelle
+   public function updatePhoto(Request $request): RedirectResponse
+   {
+       $request->validate([
+           'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+       ]);
 
-    $user = $request->user();
+       $user = $request->user();
 
-    // Eski fotoğrafı sil
-    if ($user->profile_photo) {
-        Storage::delete($user->profile_photo);
-    }
+       // Eski fotoğrafı sil
+       if ($user->profile_photo) {
+           Storage::delete($user->profile_photo);
+       }
 
-    // Yeni fotoğrafı kaydet
-    $path = $request->file('profile_photo')->store('profile_photos', 'public');
+       // Yeni fotoğrafı kaydet
+       $path = $request->file('profile_photo')->store('profile_photos', 'public');
 
-    // Kullanıcının profil fotoğrafı yolunu güncelle
-    $user->profile_photo = $path;
-    $user->save();
+       // Kullanıcının profil fotoğrafı yolunu güncelle
+       $user->profile_photo = $path;
+       $user->save();
 
-    return Redirect::route('profile.edit')->with('status', 'profile-photo-updated');
-}
+       return Redirect::route('profile.edit')->with('status', 'profile-photo-updated');
+   }
 
 
     /**

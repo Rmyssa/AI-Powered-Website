@@ -14,7 +14,15 @@
                     @include('profile.partials.update-profile-information-form')
                 </div>
             </div>
-
+<!-- Mevcut profil fotoğrafını göster -->
+<div>
+                @if (Auth::user()->profile_photo)
+                    <img src="{{ Storage::url(Auth::user()->profile_photo) }}" alt="Profil Fotoğrafı" style="width:150px;">
+                @else
+                    <img src="default-avatar.png" alt="Varsayılan Profil Fotoğrafı" style="width:150px;">
+                @endif
+            </div>
+            
             <!-- Profil Fotoğrafı Güncelleme Formu -->
      <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
