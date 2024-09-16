@@ -138,6 +138,41 @@
             margin-top: 10px;
             font-size: 1.2em;
         }
+        /* Üç nokta menüsü */
+        .menu {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .menu-items {
+            display: none;
+            position: absolute;
+            top: 30px;
+            right: 0;
+            background-color: #333;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .menu-items a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .menu-items a:hover {
+            background-color: #575757;
+        }
+
+        .show-menu {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -145,8 +180,6 @@
 <header>
     <h1>Film Öneri Sistemi</h1>
     <p>Sevdiğiniz filmlere benzer filmleri bulun</p>
-
-    
 
     <!-- Profil Fotoğrafı -->
     <div class="profile-pic" onclick="toggleProfileMenu()">
@@ -206,6 +239,29 @@ document.addEventListener('click', function(event) {
         menu.classList.remove('show-profile-menu');
     }
 });
+
+function toggleMenu(movieId) {
+    var menu = document.getElementById('menu-' + movieId);
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+function addToCategory(movieId, category) {
+    fetch(`/add-to-category`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ movie_id: movieId, category: category })
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        if (data.success) {
+            alert('Film başarıyla ' + category + ' kategorisine eklendi.');
+            // Optionally, you can reload the page or update the UI here
+        }
+    });
+}
 </script>
 </body>
 </html>

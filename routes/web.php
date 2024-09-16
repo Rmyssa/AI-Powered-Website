@@ -5,6 +5,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MovieCategoryController;
 
 
 Route::get('/', function () {
@@ -39,4 +40,6 @@ Route::post('/get-recommendations', [MovieController::class, 'getRecommendations
 
 
 Route::post('/profile-photo', [ProfileController::class, 'updatePhoto'])->name('profile.updatePhoto');
+
+Route::post('/add-to-category', [MovieCategoryController::class, 'addToCategory'])->name('add-to-category');
 
